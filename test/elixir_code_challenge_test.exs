@@ -10,6 +10,19 @@ defmodule ElixirCodeChallengeTest do
     assert ElixirCodeChallenge.run(input) == input
   end
 
+  test "Duplicate ranges should be collapsed" do
+    input = [
+      {{2020, 1, 1}, {2020, 6, 30}},
+      {{2020, 7, 1}, {2020, 12, 31}},
+      {{2020, 1, 1}, {2020, 6, 30}}
+    ]
+
+    assert ElixirCodeChallenge.run(input) == [
+             {{2020, 1, 1}, {2020, 6, 30}},
+             {{2020, 7, 1}, {2020, 12, 31}}
+           ]
+  end
+
   test "Overlapping ranges are split up into non overlapping ranges" do
     input = [
       {{2020, 1, 1}, {2020, 12, 31}},
