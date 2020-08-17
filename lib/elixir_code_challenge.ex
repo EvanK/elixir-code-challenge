@@ -19,17 +19,15 @@ defmodule ElixirCodeChallenge do
     |> Enum.dedup()
 
     # reduce (reversing order) to fix overlaps
-    |> Enum.reduce(&fix_overlaps/2)
+    |> Enum.reduce([], &fix_overlaps/2)
 
     # reduce again (reversing order) to fill gaps
-    |> Enum.reduce(&fill_gaps/2)
+    |> Enum.reduce([], &fill_gaps/2)
   end
 
-  defp fix_overlaps(elem, acc) do
-    # on first call, the initial elem from the enumerable will be acc
-    is_first_run = is_tuple(acc)
-    acc = if is_first_run, do: [acc], else: acc
+  defp fix_overlaps(elem, []), do: [ elem ]
 
+  defp fix_overlaps(elem, acc) do
     # grab current and last ranges
     {this_start, this_end} = elem
     {last_start, last_end} = List.first(acc)
@@ -48,11 +46,9 @@ defmodule ElixirCodeChallenge do
     [ {this_start, this_end} | acc]
   end
 
-  defp fill_gaps(elem, acc) do
-    # on first call, the initial elem from the enumerable will be acc
-    is_first_run = is_tuple(acc)
-    acc = if is_first_run, do: [acc], else: acc
+  defp fill_gaps(elem, []), do: [ elem ]
 
+  defp fill_gaps(elem, acc) do
     # grab current and last ranges
     {this_start, this_end} = elem
     {last_start, _} = List.first(acc)
