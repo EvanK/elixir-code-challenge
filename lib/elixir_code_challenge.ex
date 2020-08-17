@@ -19,13 +19,13 @@ defmodule ElixirCodeChallenge do
     |> Enum.dedup()
 
     # reduce (reversing order) to fix overlaps
-    |> Enum.reduce(&ElixirCodeChallenge.fix_overlaps/2)
+    |> Enum.reduce(&fix_overlaps/2)
 
     # reduce again (reversing order) to fill gaps
-    |> Enum.reduce(&ElixirCodeChallenge.fill_gaps/2)
+    |> Enum.reduce(&fill_gaps/2)
   end
 
-  def fix_overlaps(elem, acc) do
+  defp fix_overlaps(elem, acc) do
     # on first call, the initial elem from the enumerable will be acc
     is_first_run = is_tuple(acc)
     acc = if is_first_run, do: [acc], else: acc
@@ -48,7 +48,7 @@ defmodule ElixirCodeChallenge do
     [ {this_start, this_end} | acc]
   end
 
-  def fill_gaps(elem, acc) do
+  defp fill_gaps(elem, acc) do
     # on first call, the initial elem from the enumerable will be acc
     is_first_run = is_tuple(acc)
     acc = if is_first_run, do: [acc], else: acc
